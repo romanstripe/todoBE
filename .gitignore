@@ -1,0 +1,28 @@
+# Node.js 의존성 폴더
+node_modules/
+
+# 빌드 결과물
+dist/
+build/
+
+# 환경설정 파일
+.env
+.env.local
+.env.*.local
+
+# 로그 파일
+*.log
+
+# macOS 임시파일
+.DS_Store
+
+# Windows 임시파일
+Thumbs.db
+
+# VS Code 설정 폴더
+.vscode/
+
+# 임시 파일
+*.tmp
+*.temp
+*.swp
