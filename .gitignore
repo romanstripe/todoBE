@@ -1,9 +1,9 @@
-# Node.js 의존성 폴더
-node_modules/
+# # Node.js 의존성 폴더
+# node_modules/
 
-# 빌드 결과물
-dist/
-build/
+# # 빌드 결과물
+# dist/
+# build/
 
 # 환경설정 파일
 .env
