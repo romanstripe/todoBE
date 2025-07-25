@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const indexRouter = require('./routes/index');
 require('dotenv').config();
+
 const app = express();
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 
@@ -22,6 +23,8 @@ mongoose
     console.log('DB connection fail', err);
   });
 
-app.listen(5000, () => {
-  console.log('Server is on 5000');
+const PORT = process.env.PORT || 5000; // Heroku 포트 or 로컬 5000
+
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
