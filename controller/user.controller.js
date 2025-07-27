@@ -1,0 +1,53 @@
+const User = require('../models/User');
+
+const userController = {};
+const bcrypt = require('bcryptjs');
+var jwt = require('jsonwebtoken');
+
+userController.createUser = async (req, res) => {
+  try {
+    const { email, name, password } = req.body;
+    const user = await User.findOne({ email: email });
+
+    if (user) {
+      console.log('already user', user);
+      throw new Error('already registed user');
+    }
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+
+    const newUser = new User({
+      email,
+      name,
+      password: hash,
+    });
+
+    await newUser.save();
+    res.status(200).json({ status: 'Success' });
+  } catch (err) {
+    res.status(400).json({ status: 'Failed', err: err.message });
+    //중복이라 안되는지 그냥안되는지 파악을 위해 추가
+  }
+};
+
+userController.loginWithEmail = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne(
+      { email: email },
+      '-createdAt -updatedAt -__v'
+    );
+    if (user) {
+      const isMatch = bcrypt.compareSync(password, user.password);
+      if (isMatch) {
+        const token = user.generateToken();
+        return res.status(200).json({ status: 'Success', user, token });
+      }
+    }
+    throw new Error('Id or password is not matching now!');
+  } catch (err) {
+    res.status(400).json({ status: 'Failed', err: err.message });
+  }
+};
+
+module.exports = userController;
