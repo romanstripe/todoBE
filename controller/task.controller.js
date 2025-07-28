@@ -9,7 +9,9 @@ taskController.createTask = async (req, res) => {
     await newTask.save();
     res.status(200).json({ status: 'Success', task: newTask });
   } catch (err) {
-    res.status(400).json({ status: 'Failed', error: err.message || err.toString() });
+    res
+      .status(400)
+      .json({ status: 'Failed', error: err.message || err.toString() });
   }
 };
 
@@ -18,7 +20,9 @@ taskController.getTask = async (req, res) => {
     const taskList = await Task.find({}).select('-__v');
     res.status(200).json({ status: 'Success', task: taskList });
   } catch (err) {
-    res.status(400).json({ status: 'Failed', error: err.message || err.toString() });
+    res
+      .status(400)
+      .json({ status: 'Failed', error: err.message || err.toString() });
   }
 };
 
@@ -36,7 +40,9 @@ taskController.updateTask = async (req, res) => {
     }
     res.status(200).json({ status: 'Success', task: updateData });
   } catch (err) {
-    res.status(400).json({ status: 'Failed', error: err.message || err.toString() });
+    res
+      .status(400)
+      .json({ status: 'Failed', error: err.message || err.toString() });
   }
 };
 
@@ -47,7 +53,9 @@ taskController.deleteTask = async (req, res) => {
     );
     res.status(200).json({ status: 'Success', task: deleteData });
   } catch (err) {
-    res.status(400).json({ status: 'Failed', error: err.message || err.toString() });
+    res
+      .status(400)
+      .json({ status: 'Failed', error: err.message || err.toString() });
   }
 };
 

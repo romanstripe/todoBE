@@ -11,7 +11,22 @@ userController.createUser = async (req, res) => {
 
     if (user) {
       console.log('already user', user);
-      throw new Error('already registed user');
+      throw new Error('already registed user!');
+    }
+
+    if (!name) {
+      console.log('You should add your name!');
+      throw new Error('You should add your name!');
+    }
+
+    if (!email) {
+      console.log('You should add your email!');
+      throw new Error('You should add your email!');
+    }
+
+    if (!password) {
+      console.log('You should add your password!');
+      throw new Error('You should add your password!');
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -24,8 +39,8 @@ userController.createUser = async (req, res) => {
 
     await newUser.save();
     res.status(200).json({ status: 'Success' });
-  } catch (err) {
-    res.status(400).json({ status: 'Failed', err: err.message });
+  } catch (error) {
+    res.status(400).json({ status: 'Failed', message: error.message });
     //중복이라 안되는지 그냥안되는지 파악을 위해 추가
   }
 };
@@ -37,6 +52,11 @@ userController.loginWithEmail = async (req, res) => {
       { email: email },
       '-createdAt -updatedAt -__v'
     );
+
+    if (!email || !password) {
+      throw new Error('Email or password is empty now!');
+    }
+
     if (user) {
       const isMatch = bcrypt.compareSync(password, user.password);
       if (isMatch) {
@@ -44,9 +64,9 @@ userController.loginWithEmail = async (req, res) => {
         return res.status(200).json({ status: 'Success', user, token });
       }
     }
-    throw new Error('Id or password is not matching now!');
-  } catch (err) {
-    res.status(400).json({ status: 'Failed', err: err.message });
+    throw new Error('Email or password is not matching now!');
+  } catch (error) {
+    res.status(400).json({ status: 'Failed', message: error.message });
   }
 };
 
