@@ -1,9 +1,11 @@
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const indexRouter = require('./routes/index');
-require('dotenv').config();
+
+console.log('ENV KEY:', process.env.JWT_SECRET_KEY);
 
 const app = express();
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;

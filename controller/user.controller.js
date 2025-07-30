@@ -48,14 +48,17 @@ userController.createUser = async (req, res) => {
 userController.loginWithEmail = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ status: 'Failed', message: 'Email or password is empty!' });
+    }
+
     const user = await User.findOne(
       { email: email },
       '-createdAt -updatedAt -__v'
     );
-
-    if (!email || !password) {
-      throw new Error('Email or password is empty now!');
-    }
 
     if (user) {
       const isMatch = bcrypt.compareSync(password, user.password);
@@ -64,9 +67,12 @@ userController.loginWithEmail = async (req, res) => {
         return res.status(200).json({ status: 'Success', user, token });
       }
     }
-    throw new Error('Email or password is not matching now!');
+    return res.status(400).json({
+      status: 'Failed',
+      message: 'Email or password is not matching!',
+    });
   } catch (error) {
-    res.status(400).json({ status: 'Failed', message: error.message });
+    res.status(500).json({ status: 'Failed', message: error.message });
   }
 };
 
