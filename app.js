@@ -5,8 +5,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const indexRouter = require('./routes/index');
 
-console.log('ENV KEY:', process.env.JWT_SECRET_KEY);
-
 const app = express();
 const MONGODB_URI_PROD = process.env.MONGODB_URI_PROD;
 

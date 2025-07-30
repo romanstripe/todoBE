@@ -76,4 +76,17 @@ userController.loginWithEmail = async (req, res) => {
   }
 };
 
+userController.getUser = async (req, res) => {
+  try {
+    const { userId } = req;
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error('Can not find user!');
+    }
+    res.status(200).json({ status: 'Success', user });
+  } catch (error) {
+    res.status(400).json({ status: 'Failed', error: error.message });
+  }
+};
+
 module.exports = userController;
